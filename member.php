@@ -1,4 +1,8 @@
-<?php    include "header.php"; ?>
+<?php
+
+// logged in home page
+
+   include "header.php"; ?>
 <?php
     page_header("Member Home Page");
     if(isset($_SESSION['Username'])){
@@ -22,4 +26,3 @@
     }
 ?>
 <?php			include "footer.html";		?>
-

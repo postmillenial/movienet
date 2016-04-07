@@ -1,4 +1,7 @@
-<?php			include "header.php"; ?>
+<?php
+// Delete a user profile
+
+		include "header.php"; ?>
 <!-- Delete a user profile -->
 <?php
 
@@ -9,7 +12,7 @@ if(!isset($_SESSION['Username'])){
 } else if (!isset($_POST['confirm'])){
     echo "Are you sure you want to delete the account for the username: <strong>".$_SESSION['Name'], "</strong>?";
     echo "<form action='delete.php' method='POST'>
-          
+
           <p>Enter your password to confirm:</p>
           <p><input type='password' name='password'>
           <input type='submit' name='confirm' value='Delete Profile'></p>
@@ -22,7 +25,7 @@ if(!isset($_SESSION['Username'])){
         $uid = $_SESSION['uid'];
         $query = mysql_query("SELECT * FROM user WHERE UserID= $uid");
 
-        if($query === FALSE) { 
+        if($query === FALSE) {
             echo mysql_error();
         }
         else{
@@ -32,8 +35,8 @@ if(!isset($_SESSION['Username'])){
                 $row = mysql_fetch_assoc($query);
                 $db_pw = $row['Password'];
 
-                // Check if a username and password match database 
-                if(md5($pw) == $db_pw){ 
+                // Check if a username and password match database
+                if(md5($pw) == $db_pw){
                     $output = implode($row, ",") ."\n";
                     $query = mysql_query("SELECT mid,rating FROM userrating WHERE uid = $uid");
                     while ($row = mysql_fetch_assoc($query)){
@@ -58,8 +61,7 @@ if(!isset($_SESSION['Username'])){
         }
     }else{
         echo "Incorrect (empty) password.";
-    } 
+    }
 }
 ?>
 <?php include "footer.html"; ?>
-

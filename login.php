@@ -1,4 +1,8 @@
-<?php			include "header.php"; ?>
+<?php
+// Login page. can be embedded on other pages. Credentials sent over plain text.
+// Let's hope you're encrypted ;)
+  include "header.php"; ?>
+
 
 <?php
 
@@ -16,29 +20,29 @@ if(isset($_SESSION['Username'])){
     if($Username && $Password)
     {
         include 'connect.php';
-        
+
         $query = mysql_query("SELECT * FROM user WHERE lower(Username)=lower('$Username')");
         $numrows = mysql_num_rows($query);
-        
+
         if($numrows !=0){
                 //Start loging/Password check as user exists in DB!!!
                 while($row = mysql_fetch_assoc($query)){
-                    $db_user_Name = $row['Name']; 
-                    $db_user_Username = $row['Username'];  
-                    $db_user_Password = $row['Password']; 
+                    $db_user_Name = $row['Name'];
+                    $db_user_Username = $row['Username'];
+                    $db_user_Password = $row['Password'];
                     $uid = $row['UserID'];
                 }
-                // Check if a username and password match database 
+                // Check if a username and password match database
                 if(strtolower($Username) == strtolower($db_user_Username)
                          && md5($Password) == $db_user_Password){
                     page_header("Login successful!");
                     echo "Login Successful! <a href='member.php'> Click here </a> to enter the members page.";
-                    $_SESSION['Username']=$db_user_Username;	
+                    $_SESSION['Username']=$db_user_Username;
                     $_SESSION['Name']=$db_user_Name;
                     $_SESSION['uid'] = $uid;
                 }else{
                     page_header("Incorrect Password");
-                    echo "Incorrect Password <br />"; 
+                    echo "Incorrect Password <br />";
                 }
         }else{
             page_header("Login failed");
@@ -52,4 +56,3 @@ if(isset($_SESSION['Username'])){
 ?>
 
 <?php			include "footer.html"; ?>
-

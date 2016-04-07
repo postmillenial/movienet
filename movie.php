@@ -1,4 +1,7 @@
-<?php			include "header.php";		?>
+<?php
+//movie results page
+
+		include "header.php";		?>
 <?php
 function no_movie(){
     page_header("Movienet Error");
@@ -12,14 +15,14 @@ function get_movie($mid){
         die("Movienet Error: ".mysql_error());
     $count = mysql_num_rows($result);
     if($count == 0)
-       no_movie(); 
+       no_movie();
     return mysql_fetch_array($result);
 
 }
 function get_rating(){
     $uid = $_SESSION['uid'];
     $mid = $_GET['mid'];
-    $query = mysql_query("SELECT rating FROM userrating 
+    $query = mysql_query("SELECT rating FROM userrating
                         WHERE mid = $mid AND uid = $uid");
     if ($query === FALSE)
         return FALSE;
@@ -31,9 +34,9 @@ function get_rating(){
 }
 
 function update_avg($avg, $count, $old, $new){
-        
+
         $mid = $_GET['mid'];
-        if ($old<0){ 
+        if ($old<0){
         //if there is a rating, but this user hasn't rated, add to avg
             $new_avg = (($avg * $count) + $new ) / ($count + 1);
             $count++;
@@ -42,11 +45,11 @@ function update_avg($avg, $count, $old, $new){
                 echo "Error! Average rating does not exist, but old user rating is present.";
                 return FALSE;
             }
-            $remove_avg = ((floatval($avg) * $count) - $old);   
+            $remove_avg = ((floatval($avg) * $count) - $old);
             $new_avg = ($remove_avg + $new) / $count;
         }
         $query_str = "
-            UPDATE movie SET MNet_Rating = $new_avg, 
+            UPDATE movie SET MNet_Rating = $new_avg,
                     Rating_Count = $count
                       WHERE m_id = $mid;";
         $query = mysql_query($query_str);
@@ -58,7 +61,7 @@ function update_rating($old_rating, $new_rating){
         $query = mysql_query("
             UPDATE userrating SET rating = $new_rating, date = CURDATE()
             WHERE mid = $mid and uid = $uid;
-        ");	
+        ");
     } else{
         $query_str = "INSERT INTO userrating VALUES( '$uid', '$mid', '$new_rating', CURDATE() );";
         $query = mysql_query($query_str);
@@ -68,10 +71,10 @@ function update_rating($old_rating, $new_rating){
 if (!isset($_GET['mid']))
     no_movie();
 else{
-    include 'connect.php';		
+    include 'connect.php';
     $mid = $_GET['mid'];
 
-    $row = get_movie($mid); 
+    $row = get_movie($mid);
     page_header("<a href=movie.php?mid=".$row['M_ID'].">"
             .$row['Title']." (".$row['Year'].")"."</a>");
     $user_rating = get_rating();
@@ -85,13 +88,13 @@ else{
         $success = update_rating($user_rating, $new_rating);
         if (!$success)
             die("Error updating rating: ".mysql_error());
-        echo "<p>You just rated this movie ".$_POST['rating']."</p>";   
+        echo "<p>You just rated this movie ".$_POST['rating']."</p>";
         update_avg($mnet_rating, $num_ratings, $user_rating, $new_rating );
         $row = get_movie($mid);
-        $user_rating = get_rating(); //just in case it's been updated 
+        $user_rating = get_rating(); //just in case it's been updated
         $mnet_rating = $row['MNet_Rating'];
         $num_ratings = $row['Rating_Count'];
-    } 
+    }
     echo "<h3>".$row['Title']." (".$row['Year'].")"."</h3>";
     echo "<p>Genre: ".$row['Genre']."</p>";
     echo "<p>Country: ".$row['Country']."</p>";
@@ -99,7 +102,7 @@ else{
     if ($num_ratings > 0){
         echo "<p>Average Rating: ".$mnet_rating."</p>";
         echo "<p>Number of user ratings: ".$num_ratings."</p>";
-    } else 
+    } else
         echo "<p>Average Rating: No user ratings found!</p>";
     echo "<form action='movie.php?mid=".$mid."' method='post'>";
     if ($user_rating>0){
@@ -113,15 +116,15 @@ else{
         $label = "Submit";
     }
 
-    echo "<input name='submit' type='submit' value='$label'/> </p> </form>"; 
-    
+    echo "<input name='submit' type='submit' value='$label'/> </p> </form>";
+
     $tables = array('directed','produced','acted');
     $role = array('Director','Producer','Actor');
 
     for ($i=0; $i<count($tables); $i++){
-        
+
         echo "<p>".$role[$i]."s list: <br />";
-        $query = "SELECT Name, x.p_id from person, 
+        $query = "SELECT Name, x.p_id from person,
             (SELECT p_id from ".$tables[$i]." WHERE m_id = $mid) x
             WHERE person.p_id = x.p_id";
 
@@ -139,7 +142,7 @@ else{
                     $cast['Name']."</a><br />";
             }
             echo "</p>";
-        } 
+        }
     }
 }
 ?>

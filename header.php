@@ -1,5 +1,5 @@
 <?php
-
+//header include
 function page_header($title){
     echo '<html><head><title>';
     echo strip_tags($title);

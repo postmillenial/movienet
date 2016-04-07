@@ -1,8 +1,10 @@
-<?php			include "header.php";
+<?php
+// Advanced queries.
+			include "header.php";
 include "connect.php";
 // Check connection
 page_header('Custom Query');
-echo "<p>	
+echo "<p>
 <form action='custom_query.php' method='POST'>
 	<!--Section 1-->
 		1) Search for:";
@@ -25,11 +27,11 @@ echo "<p>
 							<option value ='Person Nomination(s)'>Person Nomination(s)</option>
 							<option value ='Producer(s)>Producer(s)</option>
 							<option value ='User(s)'>User(s)</option>
-					</select>	
+					</select>
 					<input type='submit' name='submit' value='Go'>
 				";
 			}echo "
-	<br>	
+	<br>
 	<br>
 </form>";
 
@@ -39,21 +41,21 @@ if(isset($_POST['submit'])){
 		$searchFor = strip_tags($_POST['searchFor']);
 		switch($searchFor){
 		case "Actor(s)":
-			echo "	
+			echo "
 			<form action='display_actor.php' method='POST'>
-				<!--Section 2-->	
-				2) Pick what fields you want displayed: 
+				<!--Section 2-->
+				2) Pick what fields you want displayed:
 					<select input type='option' Name='display'>
 								<option value = '*' >All</option>
 								<option value ='Name'>Name(s)</option>
 					</select>
 				<br >
 				<br >
-				
-				<!--Section 3-->		
-					3) Enter in any of the following fields to limit your search.<br> <br>	
+
+				<!--Section 3-->
+					3) Enter in any of the following fields to limit your search.<br> <br>
 					<span class='tab'></span>
-						by Actor Name: 
+						by Actor Name:
 							<input type='text' name='Name'";
 								if (isset($_POST['Name']))
 									echo "value='".$_POST['Name']."'";
@@ -63,11 +65,11 @@ if(isset($_POST['submit'])){
 								echo" />
 							<input type ='radio'  name='whereNameEqualsConstraint' value='Incudes'/> Includes
 							<input type ='radio'  name='whereNameEqualsConstraint' value='Exact'/> Exact
-					<br>	
-					<br>	
-					
+					<br>
+					<br>
+
 					<span class='tab'></span>
-						by Movie Title: 
+						by Movie Title:
 							<input type='text' name='Title'";
 								if (isset($_POST['Title']))
 									echo "value='".$_POST['Title']."'";
@@ -77,12 +79,12 @@ if(isset($_POST['submit'])){
 								echo" />
 							<input type ='radio'  name='whereNameEqualsConstraint' value='Incudes'/> Includes
 							<input type ='radio'  name='whereNameEqualsConstraint' value='Exact'/> Exact
-					<br>	
-					
-					<br>	
-				
+					<br>
+
+					<br>
+
 					<span class='tab'></span>
-						by genre: 
+						by genre:
 							<select input type='option' name='genreConsraint'>
 								<option value ='Action'>Action</option>
 								<option value ='Drama'>Drama</option>
@@ -90,36 +92,36 @@ if(isset($_POST['submit'])){
 								<option value ='Mystery'>Mystery</option>
 							</select>
 							NEED TO ADD TO QUERY
-					<br>	
-					<br>	
-			
-				
+					<br>
+					<br>
+
+
 				<br>
 				<br>
 				<br>
-				<br>	
-				
-					
-				
+				<br>
+
+
+
 				<br>
 				<br>
 				<br>
-				<br>	
-				
-				
+				<br>
+
+
 				<p> <input type='submit' name='submit' value='Search'> </p>
 				</form>
-				
-				
-				";
-				
 
-			
+
+				";
+
+
+
 		break;
-		case "acted":	
+		case "acted":
 		break;
 		}
 	}
-}	
+}
 ?>
 <?php			include "footer.html";		?>

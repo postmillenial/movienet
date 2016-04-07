@@ -1,4 +1,7 @@
-<?php			include "header.php"; 
+<?php
+// Search by awards.
+
+include "header.php";
 include "connect.php";
 // Check connection
 page_header("Award Query");
@@ -9,42 +12,42 @@ page_header("Award Query");
 		Only one parameter can be searched on at a time, parameters above taking priority
 		<table>
 			<tr>
-				<td>Name of Person:</td> 
+				<td>Name of Person:</td>
 				<td><input type='text' name='personName' ";
                 if (isset($_GET['personName']))
                   echo "value='".$_GET['personName']."'";
-    echo " /></td> 
-			</tr>	
+    echo " /></td>
+			</tr>
 			<tr>
 				<td>Name of Movie:</td>
 				<td><input type='text' name='movieName' ";
 		if (isset($_GET['movieName']))
                   echo "value='".$_GET['movieName']."'";
-    echo " /></td> 
-			
+    echo " /></td>
+
 			<tr>
-				<td>Award Category:</td> 
+				<td>Award Category:</td>
 				<td><input type='text' name='awardCategory' ";
                 if (isset($_GET['awardCategory']))
                   echo "value='".$_GET['awardCategory']."'";
-    echo " /></td> 
+    echo " /></td>
 			</tr>
-			
+
 			<tr>
-				<td>Award Year:</td> 
+				<td>Award Year:</td>
 				<td><input type='text' name='awardYear' ";
                 if (isset($_GET['awardYear']))
                   echo "value='".$_GET['awardYear']."'";
-    echo " /></td> 
-			</tr>	
-				
-			</tr>	
+    echo " /></td>
+			</tr>
+
+			</tr>
 		</table>
 		<p> <input type='submit' name='submit' value='Search'> </p>
     </form>";
-    
+
 if(isset($_GET['submit'])){
-	
+
 	$submit = $_GET['submit'];
 	//strip will prevent all kind of html attacks
 	$personName = strip_tags($_GET['personName']);
@@ -52,10 +55,10 @@ if(isset($_GET['submit'])){
 	$awardCategory = strip_tags($_GET['awardCategory']);
 	$awardYear = strip_tags($_GET['awardYear']);
 	//$Movie_Date = date($_POST['Movie_Date']);
-	
-	if($submit){	
+
+	if($submit){
 		//Check that the password entered is valid
-		
+
 		$validPerson = true;
 		if($personName == "")
 		{
@@ -63,17 +66,17 @@ if(isset($_GET['submit'])){
 			$validPerson = false;
 		}
 		if($movieName != "" && $validPerson == false){
-			include 'connect.php';		
+			include 'connect.php';
 			$result = mysql_query("
         			SELECT Title,Category,Year,Won,Award.A_ID
-					FROM Award INNER JOIN 
-						(Select A_ID,Title,Won from MovieNomination INNER JOIN 
+					FROM Award INNER JOIN
+						(Select A_ID,Title,Won from MovieNomination INNER JOIN
 							(Select M_ID,Title from Movie where Title like \"%$movieName%\")
-                					as MAlias 
+                					as MAlias
                 				on MAlias.M_ID = MovieNomination.M_ID )
         					as NomAlias
         				on Award.A_ID = NomAlias.A_ID");
-        
+
         		if($result === FALSE)
             			die("Movienet Error: ".mysql_error());
 			$count = mysql_num_rows($result);
@@ -92,10 +95,10 @@ if(isset($_GET['submit'])){
             		}
 		}
 		elseif($awardCategory != "" && $validPerson == false){
-			include 'connect.php';		
+			include 'connect.php';
 			$result = mysql_query("
         			SELECT Category,Year,A_ID FROM Award Where Category like \"%$awardCategory%\"");
-        
+
         		if($result === FALSE)
             			die("Movienet Error: ".mysql_error());
 			$count = mysql_num_rows($result);
@@ -111,10 +114,10 @@ if(isset($_GET['submit'])){
             		}
 		}
 		elseif($awardYear != "" && $validPerson == false){
-			include 'connect.php';		
+			include 'connect.php';
 			$result = mysql_query("
         			SELECT Category,Year,A_ID FROM Award Where Year = $awardYear");
-        
+
         		if($result === FALSE)
             			die("Movienet Error: ".mysql_error());
 			$count = mysql_num_rows($result);
@@ -130,17 +133,17 @@ if(isset($_GET['submit'])){
             		}
 		}
 		else {
-			include 'connect.php';		
+			include 'connect.php';
 			$result = mysql_query("
         			SELECT Name,Category,Year,Won,Award.A_ID
-					FROM Award INNER JOIN 
-						(Select A_ID,Name,Won from PersonNomination INNER JOIN 
+					FROM Award INNER JOIN
+						(Select A_ID,Name,Won from PersonNomination INNER JOIN
 							(Select P_ID,Name from Person where Name like \"%$personName%\")
-                					as PAlias 
+                					as PAlias
                 				on PAlias.P_ID = PersonNomination.P_ID )
         					as NomAlias
         				on Award.A_ID = NomAlias.A_ID");
-        
+
         		if($result === FALSE)
             			die("Movienet Error: ".mysql_error());
 			$count = mysql_num_rows($result);

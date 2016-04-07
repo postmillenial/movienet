@@ -1,11 +1,15 @@
-<?php include "header.php";
+<?php
+// Credits.
+
+
+include "header.php";
     page_header("Contact Us");
 ?>
-	Group Members: 
+	Group Members:
 		<br>
-		Ankeet Presswala - ankeet@umd.edu
+		Ankeet Presswala - ankeet@
 		<br>
-		Matthew Ford - mford@umd.edu
+		Matthew Ford - mford@u
 		<br>
-		William Scharpf - wscharpf@terpmail.umd.edu
+		William Scharpf - wscharpf@
 <?php include "footer.html"; ?>

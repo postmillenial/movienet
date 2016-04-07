@@ -1,18 +1,21 @@
-<?php   include "header.php";
+<?php
+// Lets you search by actor.
+
+include "header.php";
 include "connect.php";
 // Check connection
 page_header("Actor Query");
 echo "
 	<form action='actor_query.php' method='GET'>
-		Enter in any of the following fields to limit search 
+		Enter in any of the following fields to limit search
 		<table>
 			<tr>
-				<td>Name of actor:</td> 
+				<td>Name of actor:</td>
 				<td><input type='text' name='actorName' ";
                 if (isset($_GET['actorName']))
                   echo "value='".$_GET['actorName']."'";
-        echo" /></td> 
-			</tr>	
+        echo" /></td>
+			</tr>
 		</table>
 		<p> <input type='submit' name='submit' value='Search'> </p>
     </form>";
@@ -22,19 +25,19 @@ if(isset($_GET['submit'])){
 	//srtip will prevent all kind of html attacks
 	$actorName = strip_tags($_GET['actorName']);
 	//$Movie_Date = date($_POST['Movie_Date']);
-	
-	if($submit){		
+
+	if($submit){
 		//Check that the password entered is valid
-		
+
 		if($actorName == "")
 			$actorName ="*";
 
-		include 'connect.php';		
+		include 'connect.php';
 		$result = mysql_query("
-			SELECT DISTINCT PAlias.P_ID,Name 
-				FROM Acted INNER JOIN 
-					(SELECT Name,P_ID FROM Person WHERE Name LIKE \"%$actorName%\") AS PAlias 
-				ON Acted.P_ID = PAlias.P_ID"); 
+			SELECT DISTINCT PAlias.P_ID,Name
+				FROM Acted INNER JOIN
+					(SELECT Name,P_ID FROM Person WHERE Name LIKE \"%$actorName%\") AS PAlias
+				ON Acted.P_ID = PAlias.P_ID");
         if($result === FALSE)
             die("Movienet Error: ".mysql_error());
 		$count = mysql_num_rows($result);
@@ -51,4 +54,3 @@ if(isset($_GET['submit'])){
 }
 ?>
 <?php			include "footer.html";		?>
-
