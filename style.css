@@ -1,0 +1,81 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab);
+
+body{
+    background: #FFFFFF;
+    font-family: 'Roboto Slab', serif;
+    width:100%;
+    margin: 0;
+    padding: 0;
+}
+
+/*Header styles*/
+header {
+    background-color: #C5D2DB;
+    padding:.5em;
+    width: calc(100% - 16px);
+    clear:both;
+    display: inline-block;
+}
+
+/* clearfix in order to accomodate floating elements*/
+html[xmlns] header { display: block;}
+* html header{ height: 1%;}
+header:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.headernav {
+    width: 80%;
+    float:left;
+}
+.movienet {
+    float:left;
+    margin: 0;
+    width:10%;
+}
+header a:link, header a:visited {
+    color: #858585;
+}
+
+/*content styles*/
+
+.title, .title a:link, .title a:visited {
+    line-height: 1.8em;
+    clear:both;
+    background: #858585;
+    color: #C5D2DB; 
+    padding: .5em;
+    margin:0;
+    text-decoration:none;
+}
+
+.content {
+    margin: 0;
+    background: url('body_bg.png') repeat-y right 10px top; 
+    width: 100%;
+    padding: 20px 0 30px 10px;
+    clear:both;
+}
+
+
+/*FOOTER STYLES*/
+footer{
+    background: #F4921E;
+    padding: .5em;
+    margin:0;
+    width: calc(100% - 16px);
+    left:0;
+    bottom:0;
+}
+
+span.tab{
+    padding: 20px; /* Or desired space*/
+}
+
+footer p{ margin: 0 }
+footer a:link, footer a:visited { color:#353535}
